@@ -1,5 +1,3 @@
-import {type} from "os";
-
 class Triple<T> {
     readonly #data: Array<T> = new Array(3);
 
@@ -50,12 +48,21 @@ class PerstArray<T> {
         console.log(this.#root)
     }
 
-    #insert(root: Triple<any>, value: T) {
-        if (!root) {
+    #insert(node: Triple<any>, value: T) {
+        // pokud nebyla struktura stromu ještě vytvořena
+        if (!node) {
+            // vytvoř strom a vlož 1 hodnotu pole
             this.#root = new Triple(new Triple<T>(value, null, null), null, null)
         } else {
-            if (root.isReference()) {
-
+            // pokud je triple node referenční
+            if (node.isReference()) {
+                // pokud levý triple není plný
+                let leftTriple = node.data(Triple.Index.Left)
+                if (!leftTriple.isFull()) {
+                    if (leftTriple.data(Triple.Index.Middle) == null) {
+                        node.data(Triple.Index.Middle)
+                    }
+                }
             }
         }
     }
